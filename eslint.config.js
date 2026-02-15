@@ -1,3 +1,4 @@
+/* eslint-env node */
 const js = require('@eslint/js');
 const tseslint = require('typescript-eslint');
 const prettier = require('eslint-config-prettier');
@@ -8,6 +9,19 @@ const playwrightRecommended =
   (playwright.configs && playwright.configs.recommended);
 
 const config = tseslint.config(
+  {
+    files: ['eslint.config.js'],
+    languageOptions: {
+      globals: {
+        require: 'readonly',
+        module: 'readonly',
+        __dirname: 'readonly',
+      },
+    },
+    rules: {
+      'no-undef': 'off',
+    },
+  },
   {
     ignores: ['dist/**', 'playwright-report/**', 'test-results/**', 'node_modules/**'],
   },

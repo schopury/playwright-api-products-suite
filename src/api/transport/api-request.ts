@@ -28,7 +28,7 @@ function normalizeParams(
   return Object.keys(normalized).length ? normalized : undefined;
 }
 
-async function parseJson<T>(res: APIResponse): Promise<unknown> {
+async function parseJson(res: APIResponse): Promise<unknown> {
   if (res.status() === 204) {
     return null;
   }
@@ -65,7 +65,7 @@ export async function apiRequest<T = unknown>(
 
   return {
     status: response.status(),
-    ok: (await response).ok(),
+    ok: response.ok(),
     headers: response.headers(),
     body: (await parseJson(response)) as T,
   };

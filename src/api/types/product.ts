@@ -1,6 +1,16 @@
-import { z } from 'zod';
+import type { z } from 'zod';
 
-import { ProductSchema, ProductsListResponseSchema } from '../schemas/product.schema';
+import type {
+  ProductSchema,
+  ProductsListResponseSchema,
+  CreateProductRequestSchema,
+  CreateProductResponseSchema,
+  DeleteProductSchema,
+} from '../schemas/product.schema';
 
 export type Product = z.infer<typeof ProductSchema>;
 export type ProductsListResponse = z.infer<typeof ProductsListResponseSchema>;
+export type CreateProductRequest = Partial<z.infer<typeof CreateProductRequestSchema>>;
+export type CreateProductResponse = z.infer<typeof CreateProductResponseSchema>;
+export type UpdateProductRequest = Partial<Product>;
+export type DeleteProductResponse = z.infer<typeof DeleteProductSchema>;
