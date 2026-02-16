@@ -5,8 +5,8 @@ import {
   DeleteProductSchema,
 } from '../../../src/api/schemas/product.schema';
 
-test.describe('@api Products  | CRUD endpoints', () => {
-  test.describe('@api Product Lifecycle flow', () => {
+test.describe('Products  | CRUD endpoints', { tag: ['@api'] }, () => {
+  test.describe('Product Lifecycle flow', () => {
     test('complete the full Product CRUD lifecycle', async ({ products, created }) => {
       const existingId = PRODUCT_DATA.ID.existing;
       const suffix = `${Date.now()}`;
@@ -20,8 +20,9 @@ test.describe('@api Products  | CRUD endpoints', () => {
         const parsedResponse = CreateProductResponseSchema.parse(res.body);
 
         expect(parsedResponse.id, 'id').toBeGreaterThan(0);
-        expect(parsedResponse.title, 'title').toBe(payload.title);
-
+        for (const key of Object.keys(payload) as Array<keyof typeof payload>) {
+          expect(parsedResponse[key], `product ${String(key)}`).toEqual(payload[key]);
+        }
         createdId = parsedResponse.id;
         created.productIds.push(createdId);
       });
@@ -63,7 +64,7 @@ test.describe('@api Products  | CRUD endpoints', () => {
     });
   });
 
-  test.describe('@api Create | POST /products/add', () => {
+  test.describe('Create | POST /products/add', () => {
     test('creat: returns new product with all mentoned fields', async ({ products, created }) => {
       const suffix = `${Date.now()}`;
       const payload = PRODUCT_DATA.CREATE_VALID.full(suffix);
@@ -75,22 +76,22 @@ test.describe('@api Products  | CRUD endpoints', () => {
 
       expect(parsedResponse.id, 'id').toBeGreaterThan(0);
       for (const key of Object.keys(payload) as Array<keyof typeof payload>) {
-        expect(parsedResponse[key], String(key)).toEqual(payload[key]);
+        expect(parsedResponse[key], `product ${String(key)}`).toEqual(payload[key]);
       }
 
       created.productIds.push(parsedResponse.id);
     });
 
-    test('creat: invalid payload is handled', async ({ products }) => {
+    test('creat: invalid payload is handled', { tag: ['@negative'] }, async ({ products }) => {
       const res = await products.createProduct({});
 
       expectNoServerError(res);
-      //  NOTE: verify that shows 4xx for invalid payload
+      // NOTE: verify that shows 4xx for invalid payload
     });
   });
 
-  test.describe('@api Read | GET /products/:id', () => {
-    test('get by id: non-existing id is handled', async ({ products }) => {
+  test.describe('Read | GET /products/:id', () => {
+    test('get by id: non-existing id is handled', { tag: ['@negative'] }, async ({ products }) => {
       const id = PRODUCT_DATA.ID.nonExisting;
 
       const res = await products.getProductById(id);
@@ -106,7 +107,7 @@ test.describe('@api Products  | CRUD endpoints', () => {
     ] as const;
 
     for (const tc of cases) {
-      test(`update: ${tc.name} is handled`, async ({ products }) => {
+      test(`update: ${tc.name} is handled`, { tag: ['@negative'] }, async ({ products }) => {
         const res = await products.updateProduct(tc.id, tc.payload);
 
         expectNoServerError(res);
@@ -116,7 +117,7 @@ test.describe('@api Products  | CRUD endpoints', () => {
   });
 
   test.describe('Delete | DELETE /products/:id', () => {
-    test('delete: non-existing id is handled', async ({ products }) => {
+    test('delete: non-existing id is handled', { tag: ['@negative'] }, async ({ products }) => {
       const id = PRODUCT_DATA.ID.nonExisting;
 
       const res = await products.deleteProduct(id);

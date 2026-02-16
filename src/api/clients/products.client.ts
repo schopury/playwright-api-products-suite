@@ -6,6 +6,7 @@ import type {
   CreateProductRequest,
   CreateProductResponse,
   UpdateProductRequest,
+  CategoryObject,
 } from '../types/product';
 
 export class ProductsClient {
@@ -39,5 +40,19 @@ export class ProductsClient {
 
   async searchProducts(params: { q: string; limit?: number; skip?: number; select?: string }) {
     return apiRequest<ProductsListResponse>(this.api, 'GET', '/products/search', { params });
+  }
+
+  async getProductsCategories() {
+    return apiRequest<CategoryObject[]>(this.api, 'GET', '/products/categories');
+  }
+
+  async getProductsCategoryList() {
+    return apiRequest<string[]>(this.api, 'GET', '/products/category-list');
+  }
+
+  async getProductsByCategory(category: string, params?: { limit?: number; skip?: number }) {
+    return apiRequest<ProductsListResponse>(this.api, 'GET', `/products/category/${category}`, {
+      params,
+    });
   }
 }

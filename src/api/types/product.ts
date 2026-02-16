@@ -6,6 +6,7 @@ import type {
   CreateProductRequestSchema,
   CreateProductResponseSchema,
   DeleteProductSchema,
+  CategoryObjectSchema,
 } from '../schemas/product.schema';
 
 export type Product = z.infer<typeof ProductSchema>;
@@ -14,3 +15,4 @@ export type CreateProductRequest = Partial<z.infer<typeof CreateProductRequestSc
 export type CreateProductResponse = z.infer<typeof CreateProductResponseSchema>;
 export type UpdateProductRequest = Partial<Product>;
 export type DeleteProductResponse = z.infer<typeof DeleteProductSchema>;
+export type CategoryObject = z.infer<typeof CategoryObjectSchema>;

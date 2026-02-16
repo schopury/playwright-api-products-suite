@@ -22,7 +22,7 @@ export const ProductMetaSchema = z.object({
 });
 
 export const ProductSchema = z.object({
-  id: z.number(),
+  id: z.number().positive(),
   title: z.string(),
   description: z.string(),
   category: z.string(),
@@ -79,3 +79,13 @@ export const DeleteProductSchema = z.object({
   isDeleted: z.boolean(),
   deletedOn: z.string(),
 });
+
+export const CategoryListSchema = z.array(z.string().min(1)).nonempty();
+
+export const CategoryObjectSchema = z.object({
+  slug: z.string(),
+  name: z.string(),
+  url: z.string(),
+});
+
+export const ProductCategoriesSchema = z.array(CategoryObjectSchema);
