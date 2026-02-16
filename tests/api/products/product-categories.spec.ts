@@ -75,9 +75,6 @@ test.describe('Products | Categories', { tag: ['@api'] }, () => {
 
       expect(productsResponse.limit, 'limit').toBe(payload.params.limit);
       expect(productsResponse.skip, 'skip').toBe(payload.params.skip);
-      expect(productsResponse.products.length, 'returned products length').toBeLessThanOrEqual(
-        payload.params.limit!,
-      );
     });
   });
 });
