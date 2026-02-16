@@ -9,6 +9,10 @@ jobs:
     name: 'Run API Tests'
     timeout-minutes: 20
     runs-on: ubuntu-latest
+    permissions:
+      checks: write
+      pull-requests: write
+      contents: read
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
