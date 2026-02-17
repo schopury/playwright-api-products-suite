@@ -6,7 +6,7 @@ export default defineConfig({
   retries: process.env.CI ? 1 : 0,
   reporter: [
     ['junit', { outputFile: 'test-results/junit.xml' }],
-    ['html', { outputFolder: 'test-report', open: 'never' }],
+    ['html', { outputFolder: 'playwright-report', open: 'never' }],
   ],
   use: {
     baseURL: process.env.BASE_URL || 'https://dummyjson.com',
