@@ -3,6 +3,13 @@
     "target": "ES2022",
     "module": "commonjs",
     "moduleResolution": "node",
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"],
+      "@tests/*": ["tests/*"],
+      "@fixtures/*": ["tests/fixtures/*"],
+      "@clients/*": ["src/api/clients/*"]
+    },
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,

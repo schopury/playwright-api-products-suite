@@ -1,5 +1,5 @@
 import type { APIRequestContext } from '@playwright/test';
-import { apiRequest } from '../transport/api-request';
+import { apiRequest } from '@/api/transport/api-request';
 import type {
   Product,
   ProductsListResponse,
@@ -7,7 +7,7 @@ import type {
   CreateProductResponse,
   UpdateProductRequest,
   CategoryObject,
-} from '../types/product';
+} from '@/api/types/product';
 
 export class ProductsClient {
   constructor(private readonly api: APIRequestContext) {}

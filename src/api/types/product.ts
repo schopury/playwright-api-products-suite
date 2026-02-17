@@ -7,7 +7,7 @@ import type {
   CreateProductResponseSchema,
   DeleteProductSchema,
   CategoryObjectSchema,
-} from '../schemas/product.schema';
+} from '@/api/schemas/product.schema';
 
 export type Product = z.infer<typeof ProductSchema>;
 export type ProductsListResponse = z.infer<typeof ProductsListResponseSchema>;

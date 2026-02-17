@@ -1,2 +1,2 @@
-export * from './api.fixture';
-export * from './data/product.data';
+export * from '@fixtures/api.fixture';
+export * from '@fixtures/data/product.data';

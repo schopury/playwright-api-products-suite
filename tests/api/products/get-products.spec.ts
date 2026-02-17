@@ -1,6 +1,6 @@
-import { test, expect, PRODUCT_DATA, type SelectCaseOptions } from '../../fixtures';
-import { expectOkJsonResponse } from '../../../api-assertions';
-import { ProductsListResponseSchema } from '../../../src/api/schemas/product.schema';
+import { test, expect, PRODUCT_DATA, type SelectCaseOptions } from '@fixtures/index';
+import { expectOkJsonResponse } from '../../../src/api/assertions/api-assertions';
+import { ProductsListResponseSchema } from '@/api/schemas/product.schema';
 
 test.describe('Products | GET /products', { tag: ['@api'] }, () => {
   test.describe('pagination behavior', { tag: ['@functional'] }, () => {
@@ -8,14 +8,14 @@ test.describe('Products | GET /products', { tag: ['@api'] }, () => {
       'default pagination: returns expected number of items with no params',
       { tag: ['@smoke'] },
       async ({ products }) => {
-      const res = await products.getProducts();
+        const res = await products.getProducts();
 
-      expectOkJsonResponse(res);
-      const parsedResponse = ProductsListResponseSchema.parse(res.body);
+        expectOkJsonResponse(res);
+        const parsedResponse = ProductsListResponseSchema.parse(res.body);
 
-      expect(parsedResponse.limit).toBe(PRODUCT_DATA.PAGINATION.DEFAULT_LIMIT);
-      expect(parsedResponse.skip, 'skip').toBe(PRODUCT_DATA.PAGINATION.DEFAULT_SKIP);
-      expect(parsedResponse.total, 'total').toBeGreaterThanOrEqual(0);
+        expect(parsedResponse.limit).toBe(PRODUCT_DATA.PAGINATION.DEFAULT_LIMIT);
+        expect(parsedResponse.skip, 'skip').toBe(PRODUCT_DATA.PAGINATION.DEFAULT_SKIP);
+        expect(parsedResponse.total, 'total').toBeGreaterThanOrEqual(0);
 
         expect(parsedResponse.products, 'products length').toHaveLength(
           Math.min(parsedResponse.total, parsedResponse.limit),
@@ -119,7 +119,7 @@ test.describe('Products | GET /products', { tag: ['@api'] }, () => {
   test.describe('selection of specific data', { tag: ['@functional'] }, () => {
     const selectionCases: [string, SelectCaseOptions][] = [
       ['price and title first page', PRODUCT_DATA.SELECTION_SCENARIOS.titleAndPriceFirstPage()],
-      ['price and title offset page', PRODUCT_DATA.SELECTION_SCENARIOS.titleAndPriceFirstPage()],
+      ['price and title offset page', PRODUCT_DATA.SELECTION_SCENARIOS.titleAndPriceOffsetPage()],
       ['id only', PRODUCT_DATA.SELECTION_SCENARIOS.idOnly()],
     ];
     for (const [name, params] of selectionCases) {
@@ -144,20 +144,24 @@ test.describe('Products | GET /products', { tag: ['@api'] }, () => {
       });
     }
 
-    test('select: invalid field is ignored safely', { tag: ['@negative'] }, async ({ products }) => {
-      const res = await products.getProducts({ limit: 5, skip: 0, select: 'doesNotExist' });
+    test(
+      'select: invalid field is ignored safely',
+      { tag: ['@negative'] },
+      async ({ products }) => {
+        const res = await products.getProducts({ limit: 5, skip: 0, select: 'doesNotExist' });
 
-      expectOkJsonResponse(res);
-      expect(res.body.products, 'products').toBeInstanceOf(Array);
-      expect(res.body.products.length, 'products length').toBeGreaterThan(0);
+        expectOkJsonResponse(res);
+        expect(res.body.products, 'products').toBeInstanceOf(Array);
+        expect(res.body.products.length, 'products length').toBeGreaterThan(0);
 
-      const firstProduct = res.body.products[0];
-      expect(firstProduct, 'invalid field should not exist in keys').not.toHaveProperty(
-        'doesNotExist',
-      );
+        const firstProduct = res.body.products[0];
+        expect(firstProduct, 'invalid field should not exist in keys').not.toHaveProperty(
+          'doesNotExist',
+        );
 
-      expect(firstProduct, 'first product id').toHaveProperty('id');
-    });
+        expect(firstProduct, 'first product id').toHaveProperty('id');
+      },
+    );
 
     test(
       'select=title,doesNotExist still returns title for products',
@@ -168,14 +172,14 @@ test.describe('Products | GET /products', { tag: ['@api'] }, () => {
           skip: 0,
           select: 'title,doesNotExist',
         });
-      expect(res.status, 'status not 5xx').toBeLessThan(500);
+        expect(res.status, 'status not 5xx').toBeLessThan(500);
 
-      expectOkJsonResponse(res);
-      expect(res.body.products, 'products').toBeInstanceOf(Array);
+        expectOkJsonResponse(res);
+        expect(res.body.products, 'products').toBeInstanceOf(Array);
 
         for (const p of res.body.products) {
           expect(p, 'invalid field should not exist in keys').not.toHaveProperty('doesNotExist');
-          expect(p, 'product title exists').toHaveProperty('id');
+          expect(p, 'product id exists').toHaveProperty('id');
         }
       },
     );
@@ -183,7 +187,7 @@ test.describe('Products | GET /products', { tag: ['@api'] }, () => {
 
   test.describe('sorting behavior', { tag: ['@functional'] }, () => {
     test('sortBy=title&order=asc returns titles in ascending order', async ({ products }) => {
-      test.fixme(true, 'Known DummyJSON issue: descending sort is inconsistent');
+      test.fixme(true, 'Known DummyJSON issue: ascending sort is inconsistent');
 
       const sortBy = 'title';
       const order = 'asc';
@@ -201,7 +205,6 @@ test.describe('Products | GET /products', { tag: ['@api'] }, () => {
         const prev = String(productsResponse.products[i - 1].title ?? '');
         const curr = String(productsResponse.products[i].title ?? '');
 
-        console.log(prev, curr);
         expect(
           prev.localeCompare(curr),
           `sorting violation order: ${order} at index ${i}: prev="${prev}", curr="${curr}"`,

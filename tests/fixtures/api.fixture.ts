@@ -1,5 +1,5 @@
 import { test as base, expect } from '@playwright/test';
-import { ProductsClient } from '../../src/api/clients/products.client';
+import { ProductsClient } from '@clients/products.client';
 
 type Fixtures = {
   products: ProductsClient;

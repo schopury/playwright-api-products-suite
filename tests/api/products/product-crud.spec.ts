@@ -1,9 +1,9 @@
-import { test, expect, PRODUCT_DATA } from '../../fixtures';
-import { expectOkJsonResponse, expectNoServerError } from '../../../api-assertions';
+import { test, expect, PRODUCT_DATA } from '@fixtures/index';
 import {
-  CreateProductResponseSchema,
-  DeleteProductSchema,
-} from '../../../src/api/schemas/product.schema';
+  expectOkJsonResponse,
+  expectNoServerError,
+} from '../../../src/api/assertions/api-assertions';
+import { CreateProductResponseSchema, DeleteProductSchema } from '@/api/schemas/product.schema';
 
 test.describe('Products  | CRUD endpoints', { tag: ['@api'] }, () => {
   test.describe('Product Lifecycle flow', () => {

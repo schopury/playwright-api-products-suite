@@ -1,10 +1,10 @@
-import { test, expect, PRODUCT_DATA } from '../../fixtures';
-import { expectOkJsonResponse } from '../../../api-assertions';
+import { test, expect, PRODUCT_DATA } from '@fixtures/index';
+import { expectOkJsonResponse } from '../../../src/api/assertions/api-assertions';
 import {
   ProductsListResponseSchema,
   ProductCategoriesSchema,
   CategoryListSchema,
-} from '../../../src/api/schemas/product.schema';
+} from '@/api/schemas/product.schema';
 
 test.describe('Products | Categories', { tag: ['@api'] }, () => {
   test.describe('GET /products/categories', () => {
@@ -13,14 +13,13 @@ test.describe('Products | Categories', { tag: ['@api'] }, () => {
 
       expectOkJsonResponse(res);
 
-      console.log(res.body);
       expect(res.body, 'categories').toBeInstanceOf(Array);
       expect(res.body.length, 'categories length').toBeGreaterThan(0);
 
       const parsedCategories = ProductCategoriesSchema.parse(res.body);
 
-      const unique = new Set(parsedCategories as Array<unknown>);
-      expect(unique.size, 'unique categories').toBe((parsedCategories as Array<unknown>).length);
+      const slugs = parsedCategories.map((c) => c.slug);
+      expect(new Set(slugs).size).toBe(slugs.length);
     });
   });
 
