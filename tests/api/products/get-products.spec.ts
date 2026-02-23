@@ -1,5 +1,5 @@
-import { test, expect, PRODUCT_DATA, type SelectCaseOptions } from '@fixtures/index';
-import { expectOkJsonResponse } from '../../../src/api/assertions/api-assertions';
+import { test, expect, PRODUCT_DATA, type SelectCaseOptions } from '@fixtures';
+import { expectOkJsonResponse } from '@/api/assertions/api-assertions';
 import { ProductsListResponseSchema } from '@/api/schemas/product.schema';
 
 test.describe('Products | GET /products', { tag: ['@api'] }, () => {

@@ -1,5 +1,5 @@
-import { test, expect, PRODUCT_DATA } from '@fixtures/index';
-import { expectOkJsonResponse } from '../../../src/api/assertions/api-assertions';
+import { test, expect, PRODUCT_DATA } from '@fixtures';
+import { expectOkJsonResponse } from '@/api/assertions/api-assertions';
 import {
   ProductsListResponseSchema,
   ProductCategoriesSchema,

@@ -1,8 +1,5 @@
-import { test, expect, PRODUCT_DATA, type SearchCaseOptions } from '@fixtures/index';
-import {
-  expectOkJsonResponse,
-  expectValuesToContain,
-} from '../../../src/api/assertions/api-assertions';
+import { test, expect, PRODUCT_DATA, type SearchCaseOptions } from '@fixtures';
+import { expectOkJsonResponse, expectValuesToContain } from '@/api/assertions/api-assertions';
 import { ProductsListResponseSchema } from '@/api/schemas/product.schema';
 
 test.describe('Products | SEARCH /products/search', { tag: ['@api'] }, () => {

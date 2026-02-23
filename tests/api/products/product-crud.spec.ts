@@ -1,8 +1,5 @@
-import { test, expect, PRODUCT_DATA } from '@fixtures/index';
-import {
-  expectOkJsonResponse,
-  expectNoServerError,
-} from '../../../src/api/assertions/api-assertions';
+import { test, expect, PRODUCT_DATA } from '@fixtures';
+import { expectOkJsonResponse, expectNoServerError } from '@/api/assertions/api-assertions';
 import { CreateProductResponseSchema, DeleteProductSchema } from '@/api/schemas/product.schema';
 
 test.describe('Products  | CRUD endpoints', { tag: ['@api'] }, () => {
